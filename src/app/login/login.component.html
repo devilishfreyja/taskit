@@ -1,0 +1,23 @@
+<main class="container">
+    <h2>Connectez-vous</h2>
+
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
+        <div class="row justify-content-center">
+            <mat-form-field>
+                <input type="email" name="email" ngModel matInput placeholder="Email" required>
+            </mat-form-field>
+        </div>
+        <div class="row justify-content-center">
+            <mat-form-field>
+                <input type="password" name="password" ngModel matInput placeholder="Mot de passe" required>
+            </mat-form-field>
+        </div>
+        <div class="row justify-content-center">
+            <button mat-raised-button [disabled]="loginForm.invalid" color="link">Je me connecte</button>
+        </div>
+    </form>
+
+    <div *ngIf="error">
+        <p>Une erreur s'est produite : {{ errorMessage }}</p>
+    </div>
+</main>

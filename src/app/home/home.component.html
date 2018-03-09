@@ -1,3 +1,14 @@
-<p>
-  home works!
-</p>
+<main class="container">
+    <div *ngIf="!isAuthenticated">
+        <h2>Page de test</h2>
+        <p>Cliquez sur ce bouton pour vous connecter</p>
+      <button mat-raised-button color="warn" routerLink="/login">Se connecter</button>
+    </div>
+
+    <div *ngIf="isAuthenticated">
+        <h2>Vous êtes connecté !</h2>
+        <div>
+            Vous êtes l'ID : {{ user.id }}
+        </div>
+    </div>
+</main>
