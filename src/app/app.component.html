@@ -1,6 +1,10 @@
-<main>
-    <div>
+<nav>
+    <button mat-button routerLink="/">Accueil</button>
+    <button mat-button routerLink="/login" *ngIf="!auth.isLoggedIn()">Se connecter</button>
+    <button mat-button routerLink="/register" *ngIf="!auth.isLoggedIn()">S'inscrire</button>
+    <button mat-button routerLink="/register" (click)="auth.logout()" *ngIf="auth.isLoggedIn()">Se déconnecter</button>
+</nav>
 
-    </div>
+<main>
     <router-outlet></router-outlet>
 </main>

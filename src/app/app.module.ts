@@ -33,6 +33,7 @@ import { AuthService } from './services/auth.service';
 const routes = [
     { path: '', component: HomeComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
     { path: '**', component: NotFoundComponent }
 ];
 

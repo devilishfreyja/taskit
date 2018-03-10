@@ -1,14 +1,15 @@
 <main class="container">
+    <h2>Accueil</h2>
     <div *ngIf="!isAuthenticated">
-        <h2>Page de test</h2>
         <p>Cliquez sur ce bouton pour vous connecter</p>
       <button mat-raised-button color="warn" routerLink="/login">Se connecter</button>
+      <button mat-raised-button color="accent" routerLink="/register">S'inscrire</button>
     </div>
 
     <div *ngIf="isAuthenticated">
-        <h2>Vous êtes connecté !</h2>
-        <div>
+        <p>Vous êtes connecté !</p>
+        <p>
             Vous êtes l'ID : {{ user.id }}
-        </div>
+        </p>
     </div>
 </main>
