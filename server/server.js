@@ -3,15 +3,8 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const app = express();
 const auth = express.Router();
+const connexionBDD = require("./db");
 
-// Utilisateurs de test TEMPORAIRE
-let users = [{
-    id: 1,
-    email: 'test@test.fr',
-    firstname: 'Charles',
-    lastname: 'Climent',
-    password: 'test'
-}];
 
 // Corrige une restriction au niveau du Head
 app.use(bodyParser.json());
@@ -29,23 +22,36 @@ auth.post('/login', (req, res) => {
     if (req.body) {
         const email = req.body.email.toLocaleLowerCase();
         const password = req.body.password;
-        const index = users.findIndex(user => user.email === email);
+        let userInfo = false;
+        let token;
 
-        if (index >= 0 && users[index].password === password) {
-            let token = jwt.sign({ iss: 'http://localhost:4201', id: users[index].id }, secret);
+        connexionBDD.query(
+            "SELECT * FROM users WHERE email = ? AND password = ?", [email, password], (error, result) => {
+                if (error) {
+                    res.status(401).json({
+                        success: false,
+                        message: 'Identifiants incorrects'
+                    });
+                }
+                else {
+                    userInfo = result[0];
 
-            res.json({
-                success: true,
-                token: token
-            });
-        }
-        else {
-            res.status(401).json({
-                success: false,
-                message: 'Identifiants incorrects'
-            });
-        }
-
+                    try {
+                        token = jwt.sign({ iss: 'http://localhost:4201', id: userInfo.id }, secret);
+                        res.json({
+                            success: true,
+                            token: token
+                        });
+                    }
+                    catch (e) {
+                        res.status(401).json({
+                            success: false,
+                            message: 'Identifiants incorrects'
+                        });
+                    }
+                }
+            }
+        );
     }
     else {
         res.status(500).json({
@@ -61,3 +67,4 @@ app.use('/auth', auth);
 
 // PORT
 app.listen(4201);
+
