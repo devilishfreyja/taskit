@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as jwtDecode from 'jwt-decode';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
 
+    // Chemin vers le serveur NODE + dossier des requêtes auth
     SERVER_URL = 'http://localhost:4201/auth';
 
     constructor(private http: HttpClient, private routeur: Router) { }
@@ -22,7 +22,6 @@ export class AuthService {
 
     getUserInfos() {
         // Récupère les infos du json, et traduit le token
-        // NB : coupler avec le serveur et la recherche des infos dans la BDD une fois celle-ci faite
         const userToken = JSON.parse(localStorage.getItem('user-data')).token;
         return this.http.get(`${this.SERVER_URL}/decodetoken/${userToken}`);
     }

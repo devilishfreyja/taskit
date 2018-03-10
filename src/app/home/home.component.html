@@ -9,7 +9,9 @@
     <div *ngIf="isAuthenticated">
         <p>Vous êtes connecté !</p>
         <p>
-            Vous êtes l'ID : {{ user.id }}
+            Vous êtes {{ user.firstname }} {{ user.lastname }} <br>
+            Email : {{ user.email }} <br>
+            ID : {{ user.id }} <br>
         </p>
     </div>
 </main>

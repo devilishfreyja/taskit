@@ -16,6 +16,8 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         if (this.auth.isLoggedIn()) {
             // Récupère les informations de l'utilisateur enregistrées en session
+            // Si le token est valide il sauvegarde les données de l'utilisateur
+            // Sinon il renvoie une erreur
             this.auth.getUserInfos().subscribe(
                 data => this.trueToken(data),
                 error => this.falseToken(error)
@@ -24,8 +26,7 @@ export class HomeComponent implements OnInit {
     }
 
     trueToken(data) {
-        this.user = data.decodedToken;
-        console.log(this.user);
+        this.user = data.data;
         this.isAuthenticated = true;
     }
 

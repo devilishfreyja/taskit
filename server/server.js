@@ -22,8 +22,8 @@ const secret = 'EzD5ps3wz5NSEJgLa3BbQha8ewJDr33ZcMLBnn8F86TP38za';
 // Traitement des infos du form, envoyés par le component 'Login'
 auth.post('/login', (req, res) => {
     if (req.body) {
-        const email = req.body.email.toLocaleLowerCase().trim();
-        const password = req.body.password.trim();
+        let email = req.body.email.toLocaleLowerCase().trim();
+        let password = req.body.password.trim();
 
         connexionBDD.query(
             "SELECT * FROM users WHERE email = ?", [email], (error, result) => {
@@ -78,10 +78,10 @@ auth.post('/login', (req, res) => {
 });
 
 auth.post('/register', (req, res) => {
-    const email = req.body.email.toLocaleLowerCase().trim();
+    let email = req.body.email.toLocaleLowerCase().trim();
     let password = req.body.password.trim();
-    const firstname = req.body.firstname.trim();
-    const lastname = req.body.lastname.trim();
+    let firstname = req.body.firstname.trim();
+    let lastname = req.body.lastname.trim();
 
     if (!/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/.test(email)) {
         res.status(401).json({
@@ -131,6 +131,9 @@ auth.post('/register', (req, res) => {
 });
 
 auth.get('/decodetoken/:token', (req, res) => {
+    // Le token est passé en GET, récupéré et décodé ici grâce au secret
+    // La valeur de retour est un objet user conteannt les infos de la requête
+
     const token = req.params.token;
 
     jwt.verify(token, secret, (err, decodedToken) => {
@@ -141,9 +144,24 @@ auth.get('/decodetoken/:token', (req, res) => {
             });
         }
         else {
-            res.json({
-                decodedToken
-            });
+            let id = decodedToken.id;
+
+            connexionBDD.query(
+                "SELECT id, email, firstname, lastname FROM users WHERE id = ?", [id], (error, result) => {
+                    if (error) {
+                        res.status(500).json({
+                            success: false,
+                            message: 'La base de donnée est inaccessible'
+                        });
+                    }
+                    else {
+                        console.log("Result : " + result[0]);
+                        res.json({
+                            data: result[0]
+                        });
+                    }
+                }
+            );
         }
     });
 });

@@ -13,7 +13,7 @@
             </mat-form-field>
         </div>
         <div class="row justify-content-center">
-            <button mat-raised-button [disabled]="loginForm.invalid" color="link">Je me connecte</button>
+            <button mat-raised-button [disabled]="loginForm.invalid || disableSubmit" color="link">Je me connecte</button>
         </div>
     </form>
 
