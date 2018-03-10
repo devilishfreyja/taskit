@@ -8,7 +8,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class HomeComponent implements OnInit {
 
-    user: any;
+    user = {};
     isAuthenticated = false;
 
     constructor(private auth: AuthService) { }
@@ -16,9 +16,22 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         if (this.auth.isLoggedIn()) {
             // Récupère les informations de l'utilisateur enregistrées en session
-            this.user = this.auth.getUserInfos();
-            this.isAuthenticated = true;
+            this.auth.getUserInfos().subscribe(
+                data => this.trueToken(data),
+                error => this.falseToken(error)
+            );
         }
+    }
+
+    trueToken(data) {
+        this.user = data.decodedToken;
+        console.log(this.user);
+        this.isAuthenticated = true;
+    }
+
+    falseToken(error) {
+        console.error(error);
+        this.auth.logout();
     }
 
 }

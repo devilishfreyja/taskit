@@ -43,7 +43,15 @@ auth.post('/login', (req, res) => {
                                 });
                             }
                             else {
-                                let token = jwt.sign({ iss: 'http://localhost:4201', id: result[0].id }, secret);
+                                let token = jwt.sign({
+                                    id:  result[0].id,
+                                    email:  result[0].email,
+                                    firstname:  result[0].firstname,
+                                    lastname:  result[0].lastname,
+                                    agent: req.headers['user-agent'],
+                                    exp:   Math.floor(new Date().getTime()/1000) + (7 * 24 * 60 * 60)
+                                }, secret);
+
                                 res.json({
                                     success: true,
                                     token: token
@@ -108,9 +116,8 @@ auth.post('/register', (req, res) => {
                 });
             }
             else {
-                password = hash;
                 connexionBDD.query(
-                    "INSERT INTO users (email, password, firstname, lastname) VALUES (?, ?, ?, ?)", [email, password, firstname, lastname], (error, result) => {
+                    "INSERT INTO users (email, password, firstname, lastname) VALUES (?, ?, ?, ?)", [email, hash, firstname, lastname], (error, result) => {
                         if (result) {
                             res.json({
                                 success: true
@@ -123,9 +130,26 @@ auth.post('/register', (req, res) => {
     }
 });
 
+auth.get('/decodetoken/:token', (req, res) => {
+    const token = req.params.token;
+
+    jwt.verify(token, secret, (err, decodedToken) => {
+        if (err) {
+            res.status(500).json({
+                success: false,
+                message: 'Le token ne correspond pas'
+            });
+        }
+        else {
+            res.json({
+                decodedToken
+            });
+        }
+    });
+});
+
 // Modification du chemin
 app.use('/auth', auth);
 
 // PORT
 app.listen(4201);
-

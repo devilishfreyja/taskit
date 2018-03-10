@@ -23,8 +23,8 @@ export class AuthService {
     getUserInfos() {
         // Récupère les infos du json, et traduit le token
         // NB : coupler avec le serveur et la recherche des infos dans la BDD une fois celle-ci faite
-        const userToken = JSON.parse(localStorage.getItem('user-data'));
-        return jwtDecode(userToken.token);
+        const userToken = JSON.parse(localStorage.getItem('user-data')).token;
+        return this.http.get(`${this.SERVER_URL}/decodetoken/${userToken}`);
     }
 
     register(data) {
