@@ -3,13 +3,18 @@
  */
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 // MATERIAL
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 
 
 /**
@@ -20,6 +25,8 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { CalendarComponent } from './calendar/calendar.component';
+
 
 /**
  * SERVICES
@@ -34,6 +41,7 @@ const routes = [
     { path: '', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
+    { path: 'calendar', component: CalendarComponent },
     { path: '**', component: NotFoundComponent }
 ];
 
@@ -44,7 +52,8 @@ const routes = [
         HomeComponent,
         NotFoundComponent,
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        CalendarComponent
     ],
     imports: [
         BrowserModule,
@@ -54,7 +63,12 @@ const routes = [
         ReactiveFormsModule,
         FormsModule,
         MatInputModule,
-        MatButtonModule
+        MatButtonModule,
+        MatExpansionModule,
+        MatListModule,
+        MatSliderModule,
+        MatSelectModule,
+        MatCardModule
     ],
     providers: [
         AuthService

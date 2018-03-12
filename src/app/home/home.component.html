@@ -1,17 +1,93 @@
-<main class="container">
-    <h2>Accueil</h2>
-    <div *ngIf="!isAuthenticated">
-        <p>Cliquez sur ce bouton pour vous connecter</p>
-      <button mat-raised-button color="warn" routerLink="/login">Se connecter</button>
+<main class="container" *ngIf="!isAuthenticated">
+    <div class="col-md-6">
+        <div class="row">
+            <p>Gérez vos projets en toute simplicité</p>
+        </div>
+        <div class="row">
+            <p>TaskIT ! Révolutionne la gestion de vos projets et optimise votre productivité.</p>
+            <mat-list role="list">
+                <mat-list-item role="listitem">- Organisez vos tâches en fonction de vos délais</mat-list-item>
+                <mat-list-item role="listitem">- Gérez votre équipe</mat-list-item>
+                <mat-list-item role="listitem">- Travaillez efficacement !</mat-list-item>
+            </mat-list>
+        </div>
+        <div class="row">
+            <button mat-raised-button color="primary" class="col-6">Démonstration</button>
+            <button mat-raised-button color="warn" class="col-6">Acheter le produit</button>
+        </div>
+    </div>
+    <h2>Le CSS, c'est surfait</h2>
+    <div>
+        <p>Raccourcis pour s'inscrire</p>
       <button mat-raised-button color="accent" routerLink="/register">S'inscrire</button>
     </div>
+</main>
 
-    <div *ngIf="isAuthenticated">
-        <p>Vous êtes connecté !</p>
-        <p>
-            Vous êtes {{ user.firstname }} {{ user.lastname }} <br>
-            Email : {{ user.email }} <br>
-            ID : {{ user.id }} <br>
-        </p>
-    </div>
+<main class="container" *ngIf="isAuthenticated">
+    <mat-card>
+        <mat-card-title>Tableau de bord</mat-card-title>
+        <mat-card-content class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">Bienvenue, #{{ user.firstname | uppercase}} !</div>
+                    <div class="row"></div>
+                    <div>
+                        <span class="row">
+                            <a href="#">Tâches en attente de démarrage : </a>
+                        </span>
+                            <span class="row">
+                            <a href="#">Tâches en cours de réalisation : </a>
+                        </span>
+                            <span class="row">
+                            <a href="#">Tâches déjà terminées : </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <!--photo de profil-->
+                    </div>
+                    <div class="row justify-content-around">
+                        <button mat-mini-fab color="link">
+                            <span class="material-icons">file_upload</span>
+                        </button>
+                        <button mat-mini-fab color="link">
+                            <span class="material-icons">close</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row justify-content-around">
+                        <span>Créer une tâche</span>
+                        <span>Créer un événement</span>
+                    </div>
+                    <div class="row justify-content-around">
+                        <span>Modifier une tâche</span>
+                        <span>Modifier un événement</span>
+                    </div>
+                    <div class="row justify-content-around">
+                        <span>Afficher le calendrier</span>
+                        <span>Affichzer les catégories</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <button class="col-12" routerLink="calendar" mat-raised-button>Accéder au calendrier</button>
+                    </div>
+                    <div class="row">
+                        <button class="col-12" mat-raised-button>Besoin d'aide ?</button>
+                    </div>
+                    <div class="row">
+                        <button class="col-12" mat-raised-button>Mes paramètres</button>
+                    </div>
+                    <div class="row">
+                        <button class="col-12" mat-raised-button (click)="auth.logout()">Déconnexion</button>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
 </main>

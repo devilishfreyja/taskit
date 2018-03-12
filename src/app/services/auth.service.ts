@@ -33,6 +33,6 @@ export class AuthService {
     logout() {
         // Suppression de la session lors de la déconnexion de l'utilisateur
         localStorage.removeItem('user-data');
-        return this.routeur.navigate(['login']);
+        location.reload();
     }
 }

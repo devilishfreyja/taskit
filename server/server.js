@@ -44,12 +44,9 @@ auth.post('/login', (req, res) => {
                             }
                             else {
                                 let token = jwt.sign({
-                                    id:  result[0].id,
-                                    email:  result[0].email,
-                                    firstname:  result[0].firstname,
-                                    lastname:  result[0].lastname,
+                                    id: result[0].id,
                                     agent: req.headers['user-agent'],
-                                    exp:   Math.floor(new Date().getTime()/1000) + (7 * 24 * 60 * 60)
+                                    exp: Math.floor(new Date().getTime()/1000) + (7 * 24 * 60 * 60)
                                 }, secret);
 
                                 res.json({
@@ -155,7 +152,6 @@ auth.get('/decodetoken/:token', (req, res) => {
                         });
                     }
                     else {
-                        console.log("Result : " + result[0]);
                         res.json({
                             data: result[0]
                         });

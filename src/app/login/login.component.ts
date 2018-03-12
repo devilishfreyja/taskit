@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-    isAuthenticated = false;
     error = false;
     errorMessage: string;
     disableSubmit = false;
@@ -18,8 +17,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         // Si l'utilisateur est déjà log, redirection à l'accueil
-        if (this.isAuthenticated || this.auth.isLoggedIn()) {
-            this.isAuthenticated = true;
+        if (this.auth.isLoggedIn()) {
             return this.routeur.navigate(['']);
         }
     }
@@ -35,7 +33,6 @@ export class LoginComponent implements OnInit {
 
     loginSuccess(data) {
         // Connexion réussie : enregistrement du token dans la session
-        this.isAuthenticated = true;
         localStorage.setItem('user-data', JSON.stringify(data));
 
         return this.routeur.navigate(['']);

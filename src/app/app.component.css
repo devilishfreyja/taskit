@@ -1,0 +1,32 @@
+nav {
+    background-color: #e69138;
+    height: 7em;
+    border-bottom: 2px solid black;
+    z-index: 24;
+}
+
+nav > div {
+    padding: auto 0;
+    box-sizing: border-box;
+    text-align: center;
+    vertical-align: middle;
+    border-right: 1px solid black;
+    display: flex;
+}
+
+nav > div > p {
+    margin: auto;
+    font-weight: bold;
+}
+
+nav > .menu:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.sidemenu {
+    padding: 0;
+    background-color: white;
+    border-right: 1px solid black;
+}
+
