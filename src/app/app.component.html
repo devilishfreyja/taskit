@@ -25,7 +25,7 @@
         </div>
         <div class="col-md-3">
             <div class="col-md-10">
-                <p class="row">Hello, #{{ user.firstname | uppercase }} !</p>
+                <p class="row">Hello, {{ user.firstname }} !</p>
                 <p class="row">
                     <span>Paramètres </span>|<a href="#" (click)="auth.logout()"> Déconnexion</a>
                 </p>
@@ -58,14 +58,12 @@
                         </mat-list>
                     </mat-expansion-panel>
 
-                    <mat-expansion-panel>
+                    <mat-expansion-panel (opened)="redirectTo('task')">
                         <mat-expansion-panel-header>
                             <mat-panel-title>Tâches</mat-panel-title>
                         </mat-expansion-panel-header>
                         <mat-list role="list">
-                            <mat-list-item role="listitem">Afficher les tâches</mat-list-item>
-                            <mat-list-item role="listitem">Créer une tâche</mat-list-item>
-                            <mat-list-item role="listitem">Modifier une tâche</mat-list-item>
+                            <mat-list-item role="listitem" routerLink="/task/new">Créer une tâche</mat-list-item>
                             <mat-list-item role="listitem">Ajouter une catégorie</mat-list-item>
                         </mat-list>
                     </mat-expansion-panel>
@@ -81,9 +79,9 @@
                         </mat-list>
                     </mat-expansion-panel>
 
-                    <mat-expansion-panel>
+                    <mat-expansion-panel routerLink="calendar">
                         <mat-expansion-panel-header>
-                            <mat-panel-title routerLink="calendar">Calendrier</mat-panel-title>
+                            <mat-panel-title>Calendrier</mat-panel-title>
                         </mat-expansion-panel-header>
 
                         <div class="row justify-content-around">

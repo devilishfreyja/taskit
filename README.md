@@ -2,7 +2,8 @@
 
 ## Avant tout
 
-Faire `npm install` dans les deux dossiers ce dissous
+Faire `npm install` dans les deux dossiers ce dissous. Le projet nécessite Angular CLI : `npm install -g @angular/cli
+`
 
 ## Utiliser Angular
 

@@ -86,19 +86,19 @@ auth.post('/register', (req, res) => {
             message: 'L\'email est trop court ou a un format incorrect'
         });
     }
-    else if (!/^[a-z0-9_-]{6,255}$/.test(password)) {
+    else if (!/^[a-z0-9!@#\$%\^&_-]{6,255}$/.test(password)) {
         res.status(401).json({
             success: false,
             message: 'Le mot de passe est trop court ou a un format incorrect'
         });
     }
-    else if (!/^[a-z0-9_-]{3,30}$/.test(firstname)) {
+    else if (!/^[a-zA-Z0-9_-]{3,30}$/.test(firstname)) {
         res.status(401).json({
             success: false,
             message: 'Le prénom est trop court ou a un format incorrect'
         });
     }
-    else if (!/^[a-z0-9_-]{3,30}$/.test(lastname)) {
+    else if (!/^[a-zA-Z0-9_-]{3,30}$/.test(lastname)) {
         res.status(401).json({
             success: false,
             message: 'Le nom est trop court ou a un format incorrect'

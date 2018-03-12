@@ -15,6 +15,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 /**
@@ -26,6 +29,10 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { TaskComponent } from './task/task.component';
+import { EventComponent } from './event/event.component';
+import { ProjectsComponent } from './projects/projects.component';
+import { SettingsComponent } from './settings/settings.component';
 
 
 /**
@@ -42,6 +49,14 @@ const routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'calendar', component: CalendarComponent },
+    { path: 'task', component: TaskComponent },
+    { path: 'task/new', component: TaskComponent },
+    { path: 'task/edit/:id', component: TaskComponent },
+    { path: 'task/categories', component: TaskComponent },
+    { path: 'event', component: EventComponent },
+    { path: 'event/new', component: EventComponent },
+    { path: 'event/edit/:id', component: EventComponent },
+    { path: 'event/categories', component: EventComponent },
     { path: '**', component: NotFoundComponent }
 ];
 
@@ -53,7 +68,11 @@ const routes = [
         NotFoundComponent,
         LoginComponent,
         RegisterComponent,
-        CalendarComponent
+        CalendarComponent,
+        TaskComponent,
+        EventComponent,
+        ProjectsComponent,
+        SettingsComponent
     ],
     imports: [
         BrowserModule,
@@ -68,7 +87,10 @@ const routes = [
         MatListModule,
         MatSliderModule,
         MatSelectModule,
-        MatCardModule
+        MatCardModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCheckboxModule
     ],
     providers: [
         AuthService

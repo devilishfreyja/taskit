@@ -1,0 +1,100 @@
+<a href="#" routerLink="/task">Liste</a>
+<a href="#" routerLink="/task/new">New</a>
+<a href="#" routerLink="/task/edit">Edit</a>
+
+<div *ngIf="currentTaskPage === 'list'">
+    La liste
+</div>
+
+<div class="container" *ngIf="currentTaskPage === 'new'">
+    <mat-card class="container">
+        <mat-card-title>Créer une tâche</mat-card-title>
+        <mat-card-content>
+            <form #newTaskForm="ngForm" (ngSubmit)="login(newTaskForm.value)">
+                <mat-form-field class="row col-12">
+                    <input type="text" name="name" matInput placeholder="Nom de la tâche">
+                </mat-form-field>
+
+                <div class="row justify-content-around">
+                    <p>Date et heure de début :</p>
+                    <p>Date et heure de fin :</p>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="row justify-content-center">
+                            <mat-form-field class="col-5">
+                                <input name="start_date_date" matInput [matDatepicker]="startPicker" placeholder="Date">
+                                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                                <mat-datepicker #startPicker></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field class="col-5">
+                                <input type="time" name="start_date_time" matInput placeholder="">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row justify-content-center">
+                            <mat-form-field class="col-5">
+                                <input name="end_date_date" matInput [matDatepicker]="endPicker" placeholder="Date">
+                                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                                <mat-datepicker #endPicker></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field class="col-5">
+                                <input type="time" name="end_date_time" matInput placeholder="">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-end">
+                    <div class="col-3">
+                        <mat-checkbox name="reminder">Rappel</mat-checkbox>
+                    </div>
+                    <div class="col-9">
+                        <mat-form-field class="col-4">
+                            <mat-select placeholder="Récurrence">
+                                <mat-option value="quotidienne">Quotidienne</mat-option>
+                                <mat-option value="last_day">Jour de fin</mat-option>
+                                <mat-option value="five_last_day">5 jours avant la fin</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row justify-content-between">
+                    <mat-form-field class="col-3">
+                        <mat-select placeholder="Attribuer à">
+                            <mat-option value="none">Non spécifié</mat-option>
+                            <mat-option *ngFor="let user of users" [value]="user.id">{{ user.firstname }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-3">
+                        <mat-select placeholder="Confidentialité">
+                            <mat-option value="all">Tout le monde</mat-option>
+                            <mat-option *ngFor="let user of users" [value]="user.id">{{ user.firstname }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-4">
+                        <mat-select placeholder="Statut">
+                            <mat-option value="quotidienne">À faire</mat-option>
+                            <mat-option value="last_day">En cours de réalisation</mat-option>
+                            <mat-option value="five_last_day">Terminé</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field class="row col-12">
+                    <textarea matInput name="description" placeholder="Description"></textarea>
+                </mat-form-field>
+
+                <div class="row justify-content-around">
+                    <button mat-button (click)="fileInput.click()">Joindre un fichier</button>
+                    <input hidden type="file" #fileInput (change)="uploadedFile($event)"/>
+
+                    <button mat-raised-button color="accent">Enregistrer</button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

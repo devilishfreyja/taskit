@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit {
     selectedProject = 'default';
     selectedCategory = 'default';
 
-    constructor(private auth: AuthService) { }
+    constructor(private auth: AuthService, private routeur: Router) { }
 
     ngOnInit() {
         if (this.auth.isLoggedIn()) {
@@ -40,5 +41,9 @@ export class AppComponent implements OnInit {
     falseToken(error) {
         console.error(error);
         this.auth.logout();
+    }
+
+    redirectTo(route) {
+        return this.routeur.navigate([`/${route}`]);
     }
 }
