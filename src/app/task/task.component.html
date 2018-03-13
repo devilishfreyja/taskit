@@ -1,9 +1,32 @@
-<a href="#" routerLink="/task">Liste</a>
-<a href="#" routerLink="/task/new">New</a>
-<a href="#" routerLink="/task/edit">Edit</a>
-
-<div *ngIf="currentTaskPage === 'list'">
-    La liste
+<div class="container" *ngIf="currentTaskPage === 'list'">
+    <mat-card class="container">
+        <mat-card-title>Liste des tâches</mat-card-title>
+        <mat-card-content>
+            <div *ngIf="tasks.length == 0">
+                <h3 >Il n'y a rien par ici !</h3>
+                <h4>Si vous ajoutez une tâche, elle apparaîtra ci-dessous.</h4>
+            </div>
+            <div *ngIf="tasks.length > 0">
+                <mat-list *ngFor="let proj of projects">
+                    <h3 mat-subheader>{{ proj.name }}</h3>
+                    <div *ngFor="let task of tasks">
+                        <mat-list-item *ngIf="task.assigned_project === proj.id">
+                            <h4 mat-line>{{ task.name }}</h4>
+                        </mat-list-item>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-list>
+                <mat-list>
+                    <h3 mat-subheader>Non assignées à des projets</h3>
+                    <div *ngFor="let task of tasks">
+                        <mat-list-item *ngIf="task.assigned_project == null">
+                            <h4 mat-line>{{ task.name }}</h4>
+                        </mat-list-item>
+                    </div>
+                </mat-list>
+            </div>
+        </mat-card-content>
+    </mat-card>
 </div>
 
 <div class="container" *ngIf="currentTaskPage === 'new'">

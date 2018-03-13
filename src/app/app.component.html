@@ -11,13 +11,13 @@
 
 <div *ngIf="auth.isLoggedIn()">
     <nav class="row justify-content-end">
-        <div class="col-md-2 menu">
+        <div class="col-md-2 menu" routerLink="/task/new">
             <p><i class="material-icons">add</i>Nouvelle tâche</p>
         </div>
         <div class="col-md-2 menu">
             <p><i class="material-icons">chat_bubble</i>Nouvel événement</p>
         </div>
-        <div class="col-md-2 menu" routerLink="calendar">
+        <div class="col-md-2 menu" routerLink="/calendar">
             <p><i class="material-icons">grid_on</i>Afficher le calendrier</p>
         </div>
         <div class="col-md-1 menu">
@@ -63,6 +63,7 @@
                             <mat-panel-title>Tâches</mat-panel-title>
                         </mat-expansion-panel-header>
                         <mat-list role="list">
+                            <mat-list-item role="listitem" routerLink="/task">Afficher les tâches</mat-list-item>
                             <mat-list-item role="listitem" routerLink="/task/new">Créer une tâche</mat-list-item>
                             <mat-list-item role="listitem">Ajouter une catégorie</mat-list-item>
                         </mat-list>
@@ -73,9 +74,9 @@
                             <mat-panel-title>Projets</mat-panel-title>
                         </mat-expansion-panel-header>
                         <mat-list role="list">
+                            <mat-list-item role="listitem">Tous les projets</mat-list-item>
                             <mat-list-item role="listitem">Ajouter un projet</mat-list-item>
                             <mat-list-item role="listitem">Ajouter une catégorie</mat-list-item>
-                            <mat-list-item role="listitem">Tous les projets</mat-list-item>
                         </mat-list>
                     </mat-expansion-panel>
 

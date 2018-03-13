@@ -30,3 +30,7 @@ nav > .menu:hover {
     border-right: 1px solid black;
 }
 
+mat-list-item:hover {
+    cursor: pointer;
+    color: #efefef;
+}
