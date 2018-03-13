@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const app = express();
 const auth = express.Router();
+const task = express.Router();
 
 const connexionBDD = require("./db");
 const bcrypt = require('bcrypt');
@@ -86,19 +87,19 @@ auth.post('/register', (req, res) => {
             message: 'L\'email est trop court ou a un format incorrect'
         });
     }
-    else if (!/^[a-z0-9!@#\$%\^&_-]{6,255}$/.test(password)) {
+    else if (!/^[a-zA-Z0-9!@#\$%\^&_-]{6,255}$/.test(password)) {
         res.status(401).json({
             success: false,
             message: 'Le mot de passe est trop court ou a un format incorrect'
         });
     }
-    else if (!/^[a-zA-Z0-9_-]{3,30}$/.test(firstname)) {
+    else if (!/^[a-zA-Z0-9' _-]{3,30}$/.test(firstname)) {
         res.status(401).json({
             success: false,
             message: 'Le prénom est trop court ou a un format incorrect'
         });
     }
-    else if (!/^[a-zA-Z0-9_-]{3,30}$/.test(lastname)) {
+    else if (!/^[a-zA-Z0-9\'\"\!\? _-]{3,30}$/.test(lastname)) {
         res.status(401).json({
             success: false,
             message: 'Le nom est trop court ou a un format incorrect'
@@ -162,8 +163,85 @@ auth.get('/decodetoken/:token', (req, res) => {
     });
 });
 
+auth.get('/all', (req, res) => {
+    connexionBDD.query(
+        "SELECT id, email, firstname, lastname FROM users", (error, result) => {
+            if (error) {
+                res.status(500).json({
+                    success: false,
+                    message: 'La base de donnée est inaccessible'
+                });
+            }
+            else {
+                res.json({
+                    data: result
+                });
+            }
+        }
+    );
+});
+
+task.get('/all', (req, res) => {
+    connexionBDD.query(
+        "SELECT * FROM task", (error, result) => {
+            if (error) {
+                res.status(500).json({
+                    success: false,
+                    message: 'La base de donnée est inaccessible'
+                });
+            }
+            else {
+                res.json({
+                    data: result
+                });
+            }
+        }
+    );
+});
+
+task.post('/new', (req, res) => {
+
+    let name = req.body.name.trim();
+    let description = req.body.description.trim();
+    let start_date = req.body.start_date_date;
+    let start_date_time = req.body.start_date_time;
+    let end_date = req.body.end_date_date;
+    let end_date_time = req.body.end_date_time;
+    let recurrence = req.body.recurrence.trim();
+    let status = req.body.status.trim();
+    let assigned_to = req.body.assigned_to.trim();
+    let privacy = req.body.privacy.trim();
+    let reminder;
+
+    if (req.body.reminder === false) {
+        reminder = 0;
+    } else {
+        reminder = 1;
+    }
+
+    connexionBDD.query(
+        "INSERT INTO task (name, description, start_date, start_date_time, end_date, end_date_time, recurrence, status, assigned_to, privacy, reminder) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [name, description, start_date, start_date_time, end_date, end_date_time, recurrence, status, assigned_to, privacy, reminder],
+        (error, result) => {
+            if (error) {
+                res.status(500).json({
+                    success: false,
+                    message: 'La base de donnée est inaccessible'
+                });
+            }
+            else {
+                res.json({
+                    success: true,
+                    message: 'La tâche a correctement été crée.'
+                });
+            }
+        }
+    )
+});
+
 // Modification du chemin
 app.use('/auth', auth);
+app.use('/task', task);
 
 // PORT
 app.listen(4201);

@@ -30,12 +30,17 @@
 </div>
 
 <div class="container" *ngIf="currentTaskPage === 'new'">
+
+    <div *ngIf="message">
+        {{ messageContent }}
+    </div>
+
     <mat-card class="container">
         <mat-card-title>Créer une tâche</mat-card-title>
         <mat-card-content>
-            <form #newTaskForm="ngForm" (ngSubmit)="login(newTaskForm.value)">
+            <form #newTaskForm="ngForm" id="newTaskForm" (ngSubmit)="newTask(newTaskForm.value)">
                 <mat-form-field class="row col-12">
-                    <input type="text" name="name" matInput placeholder="Nom de la tâche">
+                    <input type="text" name="name" ngModel matInput placeholder="Nom de la tâche" required>
                 </mat-form-field>
 
                 <div class="row justify-content-around">
@@ -47,24 +52,24 @@
                     <div class="col-6">
                         <div class="row justify-content-center">
                             <mat-form-field class="col-5">
-                                <input name="start_date_date" matInput [matDatepicker]="startPicker" placeholder="Date">
+                                <input name="start_date_date" ngModel matInput [matDatepicker]="startPicker" placeholder="Date" required>
                                 <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
                                 <mat-datepicker #startPicker></mat-datepicker>
                             </mat-form-field>
                             <mat-form-field class="col-5">
-                                <input type="time" name="start_date_time" matInput placeholder="">
+                                <input type="time" name="start_date_time" ngModel matInput placeholder="" required>
                             </mat-form-field>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="row justify-content-center">
                             <mat-form-field class="col-5">
-                                <input name="end_date_date" matInput [matDatepicker]="endPicker" placeholder="Date">
+                                <input name="end_date_date" ngModel matInput [matDatepicker]="endPicker" placeholder="Date" required>
                                 <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
                                 <mat-datepicker #endPicker></mat-datepicker>
                             </mat-form-field>
                             <mat-form-field class="col-5">
-                                <input type="time" name="end_date_time" matInput placeholder="">
+                                <input type="time" name="end_date_time" ngModel matInput placeholder="" required>
                             </mat-form-field>
                         </div>
                     </div>
@@ -72,11 +77,11 @@
 
                 <div class="row justify-content-end">
                     <div class="col-3">
-                        <mat-checkbox name="reminder">Rappel</mat-checkbox>
+                        <mat-checkbox [ngModel]="newTaskForm" name="reminder">Rappel</mat-checkbox>
                     </div>
                     <div class="col-9">
                         <mat-form-field class="col-4">
-                            <mat-select placeholder="Récurrence">
+                            <mat-select placeholder="Récurrence" [ngModel]="newTaskForm" name="recurrence" required>
                                 <mat-option value="quotidienne">Quotidienne</mat-option>
                                 <mat-option value="last_day">Jour de fin</mat-option>
                                 <mat-option value="five_last_day">5 jours avant la fin</mat-option>
@@ -87,35 +92,35 @@
 
                 <div class="row justify-content-between">
                     <mat-form-field class="col-3">
-                        <mat-select placeholder="Attribuer à">
+                        <mat-select placeholder="Attribuer à" [ngModel]="newTaskForm" name="assigned_to" required>
                             <mat-option value="none">Non spécifié</mat-option>
-                            <mat-option *ngFor="let user of users" [value]="user.id">{{ user.firstname }}</mat-option>
+                            <mat-option *ngFor="let user of users" [value]="user.id">{{ user.firstname }} {{ user.lastname }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field class="col-3">
-                        <mat-select placeholder="Confidentialité">
+                        <mat-select placeholder="Confidentialité" [ngModel]="newTaskForm" name="privacy" required>
                             <mat-option value="all">Tout le monde</mat-option>
-                            <mat-option *ngFor="let user of users" [value]="user.id">{{ user.firstname }}</mat-option>
+                            <mat-option *ngFor="let user of users" [value]="user.id">{{ user.firstname }} {{ user.lastname }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field class="col-4">
-                        <mat-select placeholder="Statut">
-                            <mat-option value="quotidienne">À faire</mat-option>
-                            <mat-option value="last_day">En cours de réalisation</mat-option>
-                            <mat-option value="five_last_day">Terminé</mat-option>
+                        <mat-select placeholder="Statut" [ngModel]="newTaskForm" name="status" required>
+                            <mat-option value="todo">À faire</mat-option>
+                            <mat-option value="wip">En cours de réalisation</mat-option>
+                            <mat-option value="ended">Terminé</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
 
                 <mat-form-field class="row col-12">
-                    <textarea matInput name="description" placeholder="Description"></textarea>
+                    <textarea ngModel matInput name="description" placeholder="Description" required></textarea>
                 </mat-form-field>
 
                 <div class="row justify-content-around">
-                    <button mat-button (click)="fileInput.click()">Joindre un fichier</button>
-                    <input hidden type="file" #fileInput (change)="uploadedFile($event)"/>
+                    <button mat-button type="button" (click)="fileInput.click()">Joindre un fichier</button>
+                    <input hidden type="file" name="attached_file" #fileInput (change)="uploadedFile($event)"/>
 
-                    <button mat-raised-button color="accent">Enregistrer</button>
+                    <button mat-raised-button type="submit" [disabled]="newTaskForm.invalid" color="accent">Enregistrer</button>
                 </div>
             </form>
         </mat-card-content>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { TaskService } from '../services/task.service';
 import { Router } from '@angular/router';
 import { DateAdapter } from '@angular/material/core';
 
@@ -11,65 +12,11 @@ import { DateAdapter } from '@angular/material/core';
 export class TaskComponent implements OnInit {
 
     currentTaskPage: string;
-    users = [];
-    tasks = [
-        {
-            id: 1,
-            name: 'Test 1',
-            description: 'Une tâche test',
-            start_date: '2018-03-13',
-            end_date: '2018-03-13',
-            recurrence: 'Quotidien',
-            status: 'A faire',
-            assigned_to: 'Charles',
-            privacy: 'Tout le monde',
-            attached_file: '',
-            reminder: 0,
-            assigned_project: 1
-        },
-        {
-            id: 2,
-            name: 'Test 2',
-            description: 'Une tâche test',
-            start_date: '2018-03-13',
-            end_date: '2018-03-13',
-            recurrence: 'Quotidien',
-            status: 'A faire',
-            assigned_to: 'Charles',
-            privacy: 'Tout le monde',
-            attached_file: '',
-            reminder: 0,
-            assigned_project: 1
-        },
-        {
-            id: 3,
-            name: 'Test 3',
-            description: 'Une tâche test',
-            start_date: '2018-03-13',
-            end_date: '2018-03-13',
-            recurrence: 'Quotidien',
-            status: 'A faire',
-            assigned_to: 'Charles',
-            privacy: 'Tout le monde',
-            attached_file: '',
-            reminder: 0,
-            assigned_project: null
-        },
-        {
-            id: 4,
-            name: 'Test 4',
-            description: 'Une tâche test',
-            start_date: '2018-03-13',
-            end_date: '2018-03-13',
-            recurrence: 'Quotidien',
-            status: 'A faire',
-            assigned_to: 'Charles',
-            privacy: 'Tout le monde',
-            attached_file: '',
-            reminder: 0,
-            assigned_project: 2
-        }
-    ];
+    message = false;
+    messageContent: string;
+
+    users = <any>[];
+    tasks = <any>[];
     projects = [
         {
             id: 1,
@@ -81,13 +28,18 @@ export class TaskComponent implements OnInit {
         }
     ];
 
-    constructor(private auth: AuthService, private routeur: Router, private adapter: DateAdapter<any>) { }
+    constructor(
+        private auth: AuthService,
+        private taskService: TaskService,
+        private routeur: Router,
+        private adapter: DateAdapter<any>
+    ) { }
 
     ngOnInit() {
         if (!this.auth.isLoggedIn()) {
             return this.routeur.navigate(['']);
-        }
-        else {
+
+        } else {
             this.route();
         }
 
@@ -97,24 +49,85 @@ export class TaskComponent implements OnInit {
     route() {
         if (this.routeur.url === '/task') {
             this.currentTaskPage = 'list';
-        }
-        else if (this.routeur.url === '/task/new') {
+
+            this.taskService.getAllTasks().subscribe(
+                data => this.getAllTasks(data),
+                error => this.failAllTasks(error)
+            );
+
+        } else if (this.routeur.url === '/task/new') {
             this.currentTaskPage = 'new';
             this.adapter.setLocale('fr');
-        }
-        else if (this.routeur.url === '/task/edit') {
+
+            this.auth.getAllUsers().subscribe(
+                data => this.getAllUsers(data),
+                error => this.failAllUsers(error)
+            );
+
+        } else if (this.routeur.url === '/task/edit') {
             this.currentTaskPage = 'edit';
-        }
-        else if (this.routeur.url === '/task/categories') {
+
+        } else if (this.routeur.url === '/task/categories') {
             this.currentTaskPage = 'categories';
-        }
-        else {
+
+        } else {
             console.log('Allô ?');
         }
     }
 
-    uploadedFile(file) {
+    // uploadedFile(file: FileList) {
+    //     this.uploadedFile = file.item(0);
+    //     // console.log(this.uploadedFile);
+    // }
 
+    /**
+     * Enregistrement des utilisateurs dans uns variable
+     */
+    getAllUsers(data) {
+        this.users = data.data;
+    }
+
+    failAllUsers(error) {
+        console.log(error.message);
+    }
+
+    /**
+     * Enregistrement de la liste des tâches existantes
+     */
+    getAllTasks(data) {
+        this.tasks = data.data;
+    }
+
+    failAllTasks(error) {
+        console.log(error.message);
+    }
+
+    /**
+     * NOUVELLE TÂCHE
+     *
+     */
+    newTask(formData) {
+        if (formData.reminder !== false) {
+            formData.reminder = true;
+        }
+
+        console.log(formData.start_date_date);
+        console.log(formData.start_date_time);
+
+        this.taskService.newTask(formData).subscribe(
+            data => this.newTaskSuccess(data),
+            error => this.newTaskFail()
+        );
+    }
+
+    newTaskSuccess(data) {
+        this.message = true;
+        this.messageContent = data.message;
+    }
+
+    newTaskFail() {
+        this.message = true;
+        this.messageContent = 'Une erreur s\'est produite. Veuillez vérifier les champrs remplis.';
     }
 
 }

@@ -40,6 +40,7 @@ import { SettingsComponent } from './settings/settings.component';
  * SERVICES
  */
 import { AuthService } from './services/auth.service';
+import { TaskService } from './services/task.service';
 
 
 /**
@@ -95,7 +96,8 @@ const routes = [
         MatDividerModule
     ],
     providers: [
-        AuthService
+        AuthService,
+        TaskService
     ],
     bootstrap: [AppComponent]
 })

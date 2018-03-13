@@ -35,4 +35,8 @@ export class AuthService {
         localStorage.removeItem('user-data');
         location.reload();
     }
+
+    getAllUsers() {
+        return this.http.get(`${this.SERVER_URL}/all`);
+    }
 }
